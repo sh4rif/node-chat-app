@@ -11,13 +11,18 @@ var io = socketIO(server);
 
 app.use(express.static(publicPath));
 
-app.get("/hello/:name", (req, res) => {
-  var name = req.params.name;
-  res.send(`Hello ${name}`);
-});
-
 io.on("connection", socket => {
   console.log("New user connected");
+
+  socket.emit("newMessage", {
+    from: "Usman",
+    message: "Hey meet up at 6",
+    createdAt: 12656561
+  });
+
+  socket.on("createMessage", message => {
+    console.log("createMessage", message);
+  });
 
   socket.on("disconnect", () => {
     console.log("User disconnected!");
