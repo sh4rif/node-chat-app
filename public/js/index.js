@@ -3,14 +3,28 @@ socket.on("connect", () => {
   console.log("Connected to server");
 });
 
+socket.on("disconnect", () => {
+  console.log("Disconnected from server");
+});
+
+socket.on("newMessage", message => {
+  console.log("newMessage", message);
+  var li = $("<li></li>");
+  li.text(`${message.from}: ${message.text}`);
+
+  $("#messages").append(li);
+});
+
 socket.on("newMessage", message => {
   console.log("newMessage", message);
 });
 
-socket.on("newUserJoined", message => {
-  console.log("newUserJoined", message);
-});
+$("#message-form").on("submit", event => {
+  event.preventDefault();
+  var message = $("[name=message]").val();
+  var chatData = { from: "User", text: message };
 
-socket.on("disconnect", () => {
-  console.log("Disconnected from server");
+  socket.emit("createMessage", chatData, data => {
+    console.log(data);
+  });
 });
