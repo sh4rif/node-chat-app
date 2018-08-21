@@ -11,6 +11,7 @@
 ul,
 li {
   list-style-position: inside;
+  margin-bottom: 20px;
 }
 
 h3 {
